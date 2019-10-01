@@ -13,16 +13,22 @@ namespace WebSite.Controllers
         [HttpGet]
         [Route("GetNew")]
         public NewsDomain GetNew(int id)
-            =>_dbContext.NewsDomain.FirstOrDefault(domain => domain.Id == id);
+        {
+            return _dbContext.NewsDomain.FirstOrDefault(domain => domain.Id == id);
+        }
 
         [HttpGet]
         [Route("GetNews")]
         public NewsDomain[] GetNews()
-            => _dbContext.NewsDomain.Local.ToArray();
+        {
+            return _dbContext.NewsDomain.Local.ToArray();
+        }
 
         [HttpPost]
         [Route("AddNew")]
         public void AddNew(NewsDomain domain)
-            => _dbContext.NewsDomain.Add(domain);
+        {
+            _dbContext.NewsDomain.Add(domain);
+        }
     }
 }
