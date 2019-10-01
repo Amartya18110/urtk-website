@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using WebSite.Domains;
 
 namespace WebSite.Controllers
@@ -9,24 +10,19 @@ namespace WebSite.Controllers
     {
         private readonly DatabaseContext _dbContext = new DatabaseContext();
 
-        public NewsController()
-        {
-        }
+        [HttpGet]
+        [Route("GetNew")]
+        public NewsDomain GetNew(int id)
+            =>_dbContext.NewsDomain.FirstOrDefault(domain => domain.Id == id);
 
         [HttpGet]
-        [Route("test")]
-        public NewsDomain Test()
-        {
-            var test = new NewsDomain
-            {
-                NewsFullText = "sdfgjklsdfhg kujdfhg jkdfslhg jkdfsgh kjdfsg hjkdfsgh ",
-                NewsName = "News 1",
-                NewsShortText = "gsdfjkghdfskgj"
-            };
+        [Route("GetNews")]
+        public NewsDomain[] GetNews()
+            => _dbContext.NewsDomain.Local.ToArray();
 
-            _dbContext.NewsDomain.Add(test);
-
-            return test;
-        }
+        [HttpPost]
+        [Route("AddNew")]
+        public void AddNew(NewsDomain domain)
+            => _dbContext.NewsDomain.Add(domain);
     }
 }
