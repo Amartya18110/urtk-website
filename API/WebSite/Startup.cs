@@ -12,6 +12,10 @@ namespace WebSite
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            using (var client = new DatabaseContext())
+            {
+                client.Database.EnsureCreated();
+            }
         }
 
         public IConfiguration Configuration { get; }
@@ -20,6 +24,7 @@ namespace WebSite
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddEntityFrameworkSqlite().AddDbContext<DatabaseContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
