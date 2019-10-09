@@ -8,12 +8,18 @@ namespace WebSite.Controllers
     [Route("news")]
     public class NewsController : ControllerBase
     {
-        private readonly DatabaseContext _dbContext = new DatabaseContext();
+        private readonly DatabaseContext _dbContext;
 
-        [HttpGet]
-        [Route("GetNew")]
-        public NewsDomain GetNew(int id)
+        public NewsController(DatabaseContext dbContext)
         {
+            _dbContext = dbContext;
+        }
+
+        [HttpGet("id")]
+        [Route("GetNews")]
+        public NewsDomain GetNews(int id)
+        {
+            var test = _dbContext.NewsDomain.FirstOrDefault(domain => domain.Id == id);
             return _dbContext.NewsDomain.FirstOrDefault(domain => domain.Id == id);
         }
 
@@ -21,14 +27,16 @@ namespace WebSite.Controllers
         [Route("GetNews")]
         public NewsDomain[] GetNews()
         {
-            return _dbContext.NewsDomain.Local.ToArray();
+            return _dbContext.NewsDomain.ToArray();
         }
 
         [HttpPost]
-        [Route("AddNew")]
-        public void AddNew(NewsDomain domain)
+        [Route("AddNews")]
+        public void AddNews(NewsDomain domain)
         {
             _dbContext.NewsDomain.Add(domain);
+
+            _dbContext.SaveChanges();
         }
     }
 }
