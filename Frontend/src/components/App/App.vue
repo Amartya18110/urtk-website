@@ -1,23 +1,31 @@
 <template>
-    <div>
-        <h1>{{message}}</h1>
-        <router-view></router-view>
+  <div>
+    <Header></Header>
+    <div class="pages-container">
+      <router-view></router-view>
     </div>
+  </div>
 </template>
 
 <script>
-    export default {
-      name: 'App',
-      data() {
-        return {
-          message: "Проект про спорт"
-        }
+  import Header from "../Header/Header.vue";
+
+  export default {
+    name: 'App',
+    components: {Header},
+    data() {
+      return {
+        message: "Проект про спорт"
       }
     }
+  }
 </script>
 
 <style scoped lang="scss">
-    h1 {
-        color: coral;
-    }
+  @import "common.scss";
+
+  h1 {
+    color: white;
+    background: $primary-color;
+  }
 </style>
