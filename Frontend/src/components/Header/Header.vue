@@ -23,7 +23,7 @@
   @import "common.scss";
 
   header {
-    background: linear-gradient(180deg, $primary-color, lighten($primary-color, 15%));
+    background: linear-gradient(180deg, $primary-color, lighten($primary-color, 5%));
     display: flex;
     justify-content: space-between;
     align-items: center;
