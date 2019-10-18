@@ -36,7 +36,7 @@ namespace WebSite.Controllers
             var news = _dbContext.NewsDomain.ToArray();
             return new NewsModel
             {
-                News = news.Skip((page - 1)* pageSize ?? 0).Take(pageSize ?? news.Count()).ToArray(),
+                News = news.Skip((page - 1) * pageSize ?? 0).Take(pageSize ?? news.Count()).ToArray(),
                 TotalItemCount = news.Count()
             };
         }
