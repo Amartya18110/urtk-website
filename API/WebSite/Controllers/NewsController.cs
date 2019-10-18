@@ -30,9 +30,9 @@ namespace WebSite.Controllers
 
         [HttpGet]
         [Route("GetNews")]
-        public NewsDomain[] GetNews()
+        public NewsDomain[] GetNews(int? startIndex, int? pageSize)
         {
-            return _dbContext.NewsDomain.ToArray();
+            return _dbContext.NewsDomain.Skip(startIndex.Value).Take(pageSize.Value).ToArray();
         }
 
         [HttpPost]
@@ -49,24 +49,16 @@ namespace WebSite.Controllers
         [Route("UploadImage")]
         public async Task<string> UploadImageAsync()
         {
-            var files = HttpContext.Request.Form.Files;
-            foreach (var Image in files)
+            var file = HttpContext.Request.Form.Files.First();
+            var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, "uploads\\img");
+            if (file.Length > 0)
             {
-                if (Image != null && Image.Length > 0)
+                var fileName = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(file.FileName);
+                using (var fileStream = new FileStream(Path.Combine(uploads, fileName), FileMode.Create))
                 {
-                    var file = Image;
-                    //There is an error here
-                    var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, "uploads\\img");
-                    if (file.Length > 0)
-                    {
-                        var fileName = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(file.FileName);
-                        using (var fileStream = new FileStream(Path.Combine(uploads, fileName), FileMode.Create))
-                        {
-                            await file.CopyToAsync(fileStream);
-                        }
-                        return "uploads\\img\\" + fileName;
-                    }
+                    await file.CopyToAsync(fileStream);
                 }
+                return "uploads\\img\\" + fileName;
             }
             return null;
         }
