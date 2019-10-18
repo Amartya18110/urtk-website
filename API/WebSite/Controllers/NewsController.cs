@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using WebSite.Domains;
+using WebSite.Models;
 
 namespace WebSite.Controllers
 {
@@ -30,9 +31,14 @@ namespace WebSite.Controllers
 
         [HttpGet]
         [Route("GetNews")]
-        public NewsDomain[] GetNews(int? startIndex, int? pageSize)
+        public NewsModel GetNews(int? page, int? pageSize)
         {
-            return _dbContext.NewsDomain.Skip(startIndex.Value).Take(pageSize.Value).ToArray();
+            var news = _dbContext.NewsDomain.ToArray();
+            return new NewsModel
+            {
+                News = news.Skip((page - 1)* pageSize ?? 0).Take(pageSize ?? news.Count()).ToArray(),
+                TotalItemCount = news.Count()
+            };
         }
 
         [HttpPost]
