@@ -6,6 +6,7 @@ namespace WebSite
     public class DatabaseContext : DbContext
     {
         public DbSet<NewsDomain> NewsDomain { get; set; }
+        public DbSet<UserDomain> UserDomain { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
