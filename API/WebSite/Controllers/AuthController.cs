@@ -5,6 +5,7 @@ using WebSite.Domains;
 namespace WebSite.Controllers
 {
     [ApiController]
+    [Route("auth")]
     public class AuthController : ControllerBase
     {
         private readonly DatabaseContext _dbContext;
@@ -14,11 +15,15 @@ namespace WebSite.Controllers
             _dbContext = dbContext;
         }
 
-        public bool Auth(string login, string pass)
+        [HttpPost]
+        [Route("")]
+        public bool Auth(UserDomain user)
         {
-            return _dbContext.UserDomain.Any(domain => domain.UserLogin == login && domain.UserPass == pass);
+            return _dbContext.UserDomain.Any(domain => domain.UserLogin == user.UserLogin && domain.UserPass == user.UserPass);
         }
 
+        [HttpPost]
+        [Route("reg")]
         public UserDomain Registration(UserDomain user)
         {
             _dbContext.UserDomain.Add(user);
