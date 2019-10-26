@@ -43,7 +43,7 @@ namespace WebSite.Controllers
 
         [HttpPost]
         [Route("AddNews")]
-        public void AddNews(NewsDomain domain)
+        public void AddNews([FromBody]NewsDomain domain)
         {
             _dbContext.NewsDomain.Add(domain);
 
