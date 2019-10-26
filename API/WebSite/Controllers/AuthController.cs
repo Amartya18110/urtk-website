@@ -17,9 +17,9 @@ namespace WebSite.Controllers
 
         [HttpPost]
         [Route("")]
-        public bool Auth(UserDomain user)
+        public UserDomain Auth(UserDomain user)
         {
-            return _dbContext.UserDomain.Any(domain => domain.UserLogin == user.UserLogin && domain.UserPass == user.UserPass);
+            return _dbContext.UserDomain.FirstOrDefault(domain => domain.UserLogin == user.UserLogin && domain.UserPass == user.UserPass);
         }
 
         [HttpPost]
