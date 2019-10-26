@@ -38,7 +38,7 @@ namespace WebSite
 
             app.UseCors(options =>
             {
-                options.WithMethods("GET", "POST")
+                options.AllowAnyMethod()
                     .AllowAnyOrigin()
                     .AllowAnyHeader();
             });
