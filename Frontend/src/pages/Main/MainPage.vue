@@ -1,6 +1,9 @@
 <template>
   <div class="root-block">
-    <h1>Последние события</h1>
+    <div class="block-header">
+      <h1>Последние события</h1>
+      <router-link v-show="signedAs" class="add-news-button" to="/add-news">Добавить новость</router-link>
+    </div>
     <div class="news-list">
       <NewsTile v-for="news in newsList.slice(0, 2)"
                 :key="news.id"
@@ -35,6 +38,7 @@
     components: {NewsTile},
     data() {
       return {
+        signedAs: localStorage.signed_as,
         // TODO: это пока нет API, переделать
         newsList: [
           {
@@ -44,79 +48,7 @@
             shortDesc: "О главном спортивном событии недели. Сборные России и Польши по футболу сыграли на Екатеринбург-арене.",
             date: new Date(),
             headlineImageUrl: "https://www.dw.com/image/17804930_303.jpg"
-          },
-          {
-            id: 2,
-            views: 101,
-            title: "Министр спорта РФ прокомментировал слова Гануса в иностранных СМИ",
-            shortDesc: "",
-            date: new Date(),
-            headlineImageUrl: "https://avatars.mds.yandex.net/get-ynews/2425176/394cbd8ecaad75faedb57a723c352d0d/563x304"
-          },
-          {
-            id: 3,
-            views: 120,
-            title: "Итоги недели: матч сборных России и Польши на «Екатеринбург Арене»",
-            shortDesc: "О главном спортивном событии недели. Сборные России и Польши по футболу сыграли на Екатеринбург-арене.",
-            date: new Date(),
-            headlineImageUrl: "https://www.dw.com/image/17804930_303.jpg"
-          },
-          {
-            id: 4,
-            views: 101,
-            title: "Министр спорта РФ прокомментировал слова Гануса в иностранных СМИ",
-            shortDesc: "",
-            date: new Date(),
-            headlineImageUrl: "https://avatars.mds.yandex.net/get-ynews/2425176/394cbd8ecaad75faedb57a723c352d0d/563x304"
-          },
-          {
-            id: 5,
-            views: 120,
-            title: "Итоги недели: матч сборных России и Польши на «Екатеринбург Арене»",
-            shortDesc: "О главном спортивном событии недели. Сборные России и Польши по футболу сыграли на Екатеринбург-арене.",
-            date: new Date(),
-            headlineImageUrl: "https://www.dw.com/image/17804930_303.jpg"
-          },
-          {
-            id: 6,
-            views: 101,
-            title: "Министр спорта РФ прокомментировал слова Гануса в иностранных СМИ",
-            shortDesc: "",
-            date: new Date(),
-            headlineImageUrl: "https://avatars.mds.yandex.net/get-ynews/2425176/394cbd8ecaad75faedb57a723c352d0d/563x304"
-          },
-          {
-            id: 7,
-            views: 120,
-            title: "Итоги недели: матч сборных России и Польши на «Екатеринбург Арене»",
-            shortDesc: "О главном спортивном событии недели. Сборные России и Польши по футболу сыграли на Екатеринбург-арене.",
-            date: new Date(),
-            headlineImageUrl: "https://www.dw.com/image/17804930_303.jpg"
-          },
-          {
-            id: 8,
-            views: 101,
-            title: "Министр спорта РФ прокомментировал слова Гануса в иностранных СМИ",
-            shortDesc: "",
-            date: new Date(),
-            headlineImageUrl: "https://avatars.mds.yandex.net/get-ynews/2425176/394cbd8ecaad75faedb57a723c352d0d/563x304"
-          },
-          {
-            id: 9,
-            views: 120,
-            title: "Итоги недели: матч сборных России и Польши на «Екатеринбург Арене»",
-            shortDesc: "О главном спортивном событии недели. Сборные России и Польши по футболу сыграли на Екатеринбург-арене.",
-            date: new Date(),
-            headlineImageUrl: "https://www.dw.com/image/17804930_303.jpg"
-          },
-          {
-            id: 10,
-            views: 101,
-            title: "Министр спорта РФ прокомментировал слова Гануса в иностранных СМИ",
-            shortDesc: "",
-            date: new Date(),
-            headlineImageUrl: "https://avatars.mds.yandex.net/get-ynews/2425176/394cbd8ecaad75faedb57a723c352d0d/563x304"
-          },
+          }
         ].slice(0, 9)
       }
     }
@@ -128,6 +60,25 @@
 
   .root-block {
     padding: 0 10vw;
+  }
+
+  .block-header {
+    display: flex;
+    align-items: center;
+  }
+
+  .add-news-button {
+    display: block;
+    margin-left: 50px;
+    padding: 4px 10px;
+    border-radius: 5px;
+    border: 1px solid $primary-color;
+    transition: 0.4s;
+
+    &:active {
+      color: white;
+      background: $primary-color;
+    }
   }
 
   .news-list {

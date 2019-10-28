@@ -43,11 +43,13 @@ namespace WebSite.Controllers
 
         [HttpPost]
         [Route("AddNews")]
-        public void AddNews([FromBody]NewsDomain domain)
+        public NewsDomain AddNews([FromBody]NewsDomain domain)
         {
             _dbContext.NewsDomain.Add(domain);
 
             _dbContext.SaveChanges();
+
+            return domain;
         }
 
         [HttpPost]

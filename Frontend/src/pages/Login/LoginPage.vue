@@ -1,6 +1,6 @@
 <template>
   <div class="login-page">
-    <form class="login-form" @submit="">
+    <form class="login-form" @submit.prevent.stop>
       <h1>Вход</h1>
       <div class="field-group">
         <label for="login-field">Логин:</label>
@@ -48,7 +48,7 @@
         })
         .then(json => {
           localStorage.setItem('signed_as', json.userName);
-          this.$router.push('admin-panel');
+          this.$router.push('/');
         })
         .catch(() => this.errorMessage = "неверный логин или пароль");
       }
