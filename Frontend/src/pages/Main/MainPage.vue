@@ -9,8 +9,8 @@
                 :key="news.id"
                 :id="news.id"
                 :title="news.title"
-                :short-decs="news.shortDesc"
-                :image-scr="news.headlineImageUrl"
+                :short-decs="news.short"
+                :image-scr="news.image"
                 :date="news.date">
       </NewsTile>
       <div class="additional-news">
@@ -21,8 +21,8 @@
                   :id="news.id"
                   :is-small="true"
                   :title="news.title"
-                  :short-decs="news.shortDesc"
-                  :image-scr="news.headlineImageUrl"
+                  :short-decs="news.short"
+                  :image-scr="news.image"
                   :date="news.date">
         </NewsTile>
         <router-link class="i-want-read-more-boring-news-button" to="/news">К другим новостям</router-link>
@@ -36,20 +36,29 @@
   export default {
     name: "MainPage",
     components: {NewsTile},
+    created() {
+      this.getNewsList();
+    },
     data() {
       return {
         signedAs: localStorage.signed_as,
+        newsList: []
         // TODO: это пока нет API, переделать
-        newsList: [
-          {
-            id: 1,
-            views: 120,
-            title: "Итоги недели: матч сборных России и Польши на «Екатеринбург Арене»",
-            shortDesc: "О главном спортивном событии недели. Сборные России и Польши по футболу сыграли на Екатеринбург-арене.",
-            date: new Date(),
-            headlineImageUrl: "https://www.dw.com/image/17804930_303.jpg"
-          }
-        ].slice(0, 9)
+      }
+    },
+    methods: {
+      async getNewsList() {
+        const response = await fetch(`http://localhost:${API_PORT}/news/getnews?page=1&pageSize=6`);
+        const json = await response.json();
+        this.newsList = json.news.map(e => {
+          return {
+            id: e.id,
+            image: null,
+            data: null,
+            title: e.newsName,
+            short: e.newsShortText
+          };
+        });
       }
     }
   }
