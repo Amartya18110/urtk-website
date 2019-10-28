@@ -17,14 +17,14 @@ namespace WebSite.Controllers
 
         [HttpPost]
         [Route("")]
-        public UserDomain Auth(UserDomain user)
+        public UserDomain Auth([FromBody]UserDomain user)
         {
             return _dbContext.UserDomain.FirstOrDefault(domain => domain.UserLogin == user.UserLogin && domain.UserPass == user.UserPass);
         }
 
         [HttpPost]
         [Route("reg")]
-        public UserDomain Registration(UserDomain user)
+        public UserDomain Registration([FromBody]UserDomain user)
         {
             _dbContext.UserDomain.Add(user);
             _dbContext.SaveChanges();
