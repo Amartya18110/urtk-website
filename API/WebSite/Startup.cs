@@ -23,6 +23,11 @@ namespace WebSite
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
+            using (var context = new DatabaseContext(new DbContextOptions<DatabaseContext>()))
+            {
+                context.Database.Migrate();
+            }
+
             services.AddControllers();
         }
 
