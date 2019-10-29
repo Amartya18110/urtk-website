@@ -26,8 +26,7 @@
     methods: {
       async getNews() {
         const response = await fetch(`http://localhost:${API_PORT}/news/getnews/${this.$route.params.id}`);
-        const json = await response.json();
-        let n = json;
+        let n = await response.json();
         console.dir(n);
         this.title = n.newsName ? n.newsName : "";
         this.short = n.newsShortText ? n.newsShortText : "";
