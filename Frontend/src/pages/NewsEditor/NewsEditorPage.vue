@@ -138,13 +138,13 @@
           formData.append("file", file);
           console.dir(file);
           console.dir(formData);
-          const response = await fetch(`http://localhost:${API_PORT}/news/UploadImage`, {
+          const response = await fetch(`${API_HOST}:${API_PORT}/news/UploadImage`, {
             method: 'POST',
             body: formData
           });
           const fileSrc = await response.text();
           console.log(fileSrc);
-          this.editingNews.image = `http://localhost:${API_PORT}/${fileSrc.replace(/\\/g, '/')}`
+          this.editingNews.image = `${API_HOST}:${API_PORT}/${fileSrc.replace(/\\/g, '/')}`
         }
       },
       async save(event) {
@@ -154,7 +154,7 @@
           "NewsFullText": document.querySelector('.news-content').innerHTML,
           "NewsImage": this.editingNews.image
         };
-        const response = await fetch(`http://localhost:${API_PORT}/news/addnews`, {
+        const response = await fetch(`${API_HOST}:${API_PORT}/news/addnews`, {
           method: 'POST',
           headers: {
             'content-type': 'application/json'

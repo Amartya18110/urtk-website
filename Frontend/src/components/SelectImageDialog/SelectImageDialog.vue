@@ -60,12 +60,12 @@
           formData.append("file", file);
           console.dir(file);
           console.dir(formData);
-          const response = await fetch(`http://localhost:${API_PORT}/news/UploadImage`, {
+          const response = await fetch(`${API_HOST}:${API_PORT}/news/UploadImage`, {
             method: 'POST',
             body: formData
           });
           const fileSrc = await response.text();
-          this.image = `http://localhost:${API_PORT}/${fileSrc.replace(/\\/g, '/')}`;
+          this.image = `${API_HOST}:${API_PORT}/${fileSrc.replace(/\\/g, '/')}`;
         }
       }
     }

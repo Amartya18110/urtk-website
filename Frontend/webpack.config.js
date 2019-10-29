@@ -3,7 +3,11 @@ const VueLoaderPlugin = require('vue-loader').VueLoaderPlugin;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DefinePlugin = require('webpack').DefinePlugin;
 
-const API_PORT = 26408;
+const API_HOST = "'http://157.230.25.160'";
+const API_PORT = 5000;
+
+// const API_HOST = "'http://localhost'";
+// const API_PORT = 26408;
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
@@ -47,6 +51,7 @@ module.exports = {
       template: "index-template.html"
     }),
     new DefinePlugin({
+      API_HOST,
       API_PORT
     })
   ],

@@ -47,7 +47,7 @@
     },
     methods: {
       async getNewsList() {
-        const response = await fetch(`http://localhost:${API_PORT}/news/getnews?page=1&pageSize=6`);
+        const response = await fetch(`${API_HOST}:${API_PORT}/news/getnews?page=1&pageSize=6`);
         const json = await response.json();
         this.newsList = json.news.map(e => {
           return {

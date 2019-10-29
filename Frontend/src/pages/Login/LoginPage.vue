@@ -32,7 +32,7 @@
       },
       signIn() {
         this.errorMessage = "";
-        fetch(`http://localhost:${API_PORT}/auth`, {
+        fetch(`${API_HOST}:${API_PORT}/auth`, {
           method: 'POST',
           headers: {
             'content-type': 'application/json'
