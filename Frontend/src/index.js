@@ -8,6 +8,7 @@ import AboutPage from "./pages/About/AboutPage.vue";
 import LoginPage from "./pages/Login/LoginPage.vue";
 import AdminPanelPage from "./pages/AdminPanel/AdminPanelPage.vue";
 import NewsEditorPage from "./pages/NewsEditor/NewsEditorPage.vue";
+import NewsPage from "./pages/News/NewsPage.vue";
 
 Vue.use(VueRouter);
 document.execCommand("defaultParagraphSeparator", false, "p");
@@ -31,6 +32,9 @@ const routes = [
   }, {
     path: "/add-news",
     component: NewsEditorPage
+  }, {
+    path: "/news/:id",
+    component: NewsPage
   }
 ];
 

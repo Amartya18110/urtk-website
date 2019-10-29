@@ -90,7 +90,8 @@
         const body = {
           "NewsName": this.editingNews.title,
           "NewsShortText": this.editingNews.short,
-          "NewsFullText": document.querySelector('.news-content').innerHTML
+          "NewsFullText": document.querySelector('.news-content').innerHTML,
+          "NewsImage": this.editingNews.image
         };
         const response = await fetch(`http://localhost:${API_PORT}/news/addnews`, {
           method: 'POST',

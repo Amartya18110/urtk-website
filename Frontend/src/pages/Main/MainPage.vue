@@ -43,7 +43,6 @@
       return {
         signedAs: localStorage.signed_as,
         newsList: []
-        // TODO: это пока нет API, переделать
       }
     },
     methods: {
