@@ -21,6 +21,13 @@
       </div>
     </div>
     <div class="news-content-wrapper">
+      <div class="editor-toolbar">
+        <img class="toolbar-button button-bold" @click.prevent.stop="format('bold')" src="dist/img/bold.svg" alt="bold">
+        <img class="toolbar-button button-bold" @click.prevent.stop="format('italic')" src="dist/img/italic.svg" alt="italic">
+        <img class="toolbar-button button-bold" @click.prevent.stop="format('underline')" src="dist/img/underline.svg" alt="underline">
+        <img class="toolbar-button button-bold" @click.prevent.stop="openPictureInsertDialog" src="dist/img/pic.svg" alt="picture">
+      </div>
+      <SelectImageDialog @image-changed="onPictureInsertDialogClosed" v-show="showImageDialog"></SelectImageDialog>
       <div class="news-content" contenteditable="true">
         Содержимое новости
       </div>
@@ -29,10 +36,13 @@
 </template>
 
 <script>
+  import SelectImageDialog from "../../components/SelectImageDialog/SelectImageDialog.vue";
   export default {
     name: "NewsEditor",
+    components: {SelectImageDialog},
     data() {
       return {
+        showImageDialog: false,
         showDragMessage: false,
         editingNews: {
           title: "",
@@ -47,6 +57,57 @@
       }
     },
     methods: {
+      format(cmd) {
+        document.execCommand(cmd, false, null);
+        document.querySelector('.news-content').focus();
+      },
+      openPictureInsertDialog(event) {
+        this.showImageDialog = true
+      },
+      onPictureInsertDialogClosed(imgUrl) {
+        if (imgUrl != null && imgUrl !== "") {
+          this.insertFuckingImage(imgUrl);
+        }
+        this.showImageDialog = false
+      },
+      insertFuckingImage(imgUrl) {
+        const containerNode = document.querySelector('.news-content');
+        const node = document.createElement("img");
+        node.src = imgUrl;
+        let sel, range, html, str;
+
+        function isOrContainsNode(ancestor, descendant) {
+          var node = descendant;
+          while (node) {
+            if (node === ancestor) {
+              return true;
+            }
+            node = node.parentNode;
+          }
+          return false;
+        }
+
+        if (window.getSelection) {
+          sel = window.getSelection();
+          if (sel.getRangeAt && sel.rangeCount) {
+            range = sel.getRangeAt(0);
+            if (isOrContainsNode(containerNode, range.commonAncestorContainer)) {
+              range.deleteContents();
+              range.insertNode(node);
+            } else {
+              containerNode.appendChild(node);
+            }
+          }
+        } else if (document.selection && document.selection.createRange) {
+          range = document.selection.createRange();
+          if (isOrContainsNode(containerNode, range.parentElement())) {
+            html = (node.nodeType === 3) ? node.data : node.outerHTML;
+            range.pasteHTML(html);
+          } else {
+            containerNode.appendChild(node);
+          }
+        }
+      },
       onEditorDragover() {
         console.log("dragover");
         this.showDragMessage = true;
@@ -195,5 +256,30 @@
 
   .news-content-wrapper {
     margin-top: 40px;
+  }
+
+  .editor-toolbar {
+    display: flex;
+  }
+
+  .news-content {
+    margin-top: 20px;
+  }
+
+  .toolbar-button {
+    box-sizing: border-box;
+    width: 32px;
+    height: 32px;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+
+    svg {
+      width: 16px;
+    }
+
+    &:active {
+      border: 1px solid $primary-color;
+    }
   }
 </style>
