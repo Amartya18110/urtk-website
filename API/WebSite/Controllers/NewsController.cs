@@ -22,8 +22,8 @@ namespace WebSite.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
-        [HttpGet("id")]
-        [Route("GetNews")]
+        [HttpGet]
+        [Route("GetNews/{id}")]
         public NewsDomain GetNews(int id)
         {
             return _dbContext.NewsDomain.FirstOrDefault(domain => domain.Id == id);
@@ -33,7 +33,7 @@ namespace WebSite.Controllers
         [Route("GetNews")]
         public NewsModel GetNews(int? page, int? pageSize)
         {
-            var news = _dbContext.NewsDomain.ToArray();
+            var news = _dbContext.NewsDomain.OrderByDescending(domain => domain.Id).ToArray();
             return new NewsModel
             {
                 News = news.Skip((page - 1) * pageSize ?? 0).Take(pageSize ?? news.Count()).ToArray(),
@@ -47,6 +47,16 @@ namespace WebSite.Controllers
         {
             _dbContext.NewsDomain.Add(domain);
 
+            _dbContext.SaveChanges();
+
+            return domain;
+        }
+
+        [HttpPost]
+        [Route("EditNews")]
+        public NewsDomain EditNews([FromBody] NewsDomain domain)
+        {
+            _dbContext.Update(domain);
             _dbContext.SaveChanges();
 
             return domain;
