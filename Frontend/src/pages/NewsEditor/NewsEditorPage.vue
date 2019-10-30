@@ -140,10 +140,10 @@
           console.dir(formData);
           const response = await fetch(`${API_HOST}:${API_PORT}/news/UploadImage`, {
             method: 'POST',
+            mode: 'no-cors',
             body: formData
           });
           const fileSrc = await response.text();
-          console.log(fileSrc);
           this.editingNews.image = `${API_HOST}:${API_PORT}/${fileSrc.replace(/\\/g, '/')}`
         }
       },

@@ -62,6 +62,7 @@
           console.dir(formData);
           const response = await fetch(`${API_HOST}:${API_PORT}/news/UploadImage`, {
             method: 'POST',
+            mode: 'no-cors',
             body: formData
           });
           const fileSrc = await response.text();
@@ -110,7 +111,7 @@
     top: 0;
     right: 0;
     bottom: 0;
-    background: #00000060;
+    background: rgba(0, 0, 0, 0.38);
   }
 
   .dialog-content {
