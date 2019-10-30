@@ -17,9 +17,7 @@
       <img class="toolbar-button button-bold" @click.prevent.stop="openPictureInsertDialog" src="./pic.svg" title="Вставить изображение">
     </div>
     <SelectImageDialog @image-changed="onPictureInsertDialogClosed" v-show="showImageDialog"></SelectImageDialog>
-    <div class="content" contenteditable="true" @input="$emit('input', $event.target.innerHTML)">
-      Содержимое новости
-    </div>
+    <div class="content" placeholder="Введите текст" contenteditable="true" @input="$emit('input', $event.target.innerHTML)"></div>
   </div>
 </template>
 
@@ -110,6 +108,12 @@
     outline: 1px solid $primary-color;
     padding: 20px;
     margin-top: 20px;
+  }
+
+  .content:empty:before {
+    display: block;
+    content: attr(placeholder);
+    color: $implicit-color;
   }
 
   .toolbar-button {
