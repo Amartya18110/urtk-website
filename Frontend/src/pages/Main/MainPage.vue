@@ -49,13 +49,14 @@
       async getNewsList() {
         const response = await fetch(`${API_HOST}:${API_PORT}/news/getnews?page=1&pageSize=6`);
         const json = await response.json();
-        this.newsList = json.news.map(e => {
+        this.newsList = json.news.map(n => {
           return {
-            id: e.id,
-            image: null,
-            data: null,
-            title: e.newsName,
-            short: e.newsShortText
+            id: n.id,
+            title: n.newsName ? n.newsName : "",
+            short: n.newsShortText ? n.newsShortText : "",
+            full: n.newsFullText ? n.newsFullText : "",
+            image: n.newsImage ? n.newsImage : "",
+            date: n.newsCreateTime ? new Date(n.newsCreateTime) : null
           };
         });
       }
