@@ -1,12 +1,14 @@
 <template>
   <header>
-    <div class="logo-block">
-      <div class="logo">logo</div>
-      <div class="title-block">
-        <span>Областной молодежный медиаквест</span><br>
-        <span class="project-title">«Российский спорт»</span>
+    <router-link class="go-home" to="/">
+      <div class="logo-block">
+        <div class="logo">logo</div>
+        <div class="title-block">
+          <span>Областной молодежный медиаквест</span><br>
+          <span class="project-title">«Российский спорт»</span>
+        </div>
       </div>
-    </div>
+    </router-link>
     <NavigationMenu></NavigationMenu>
   </header>
 </template>
@@ -27,24 +29,25 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 20px;
   }
 
   .logo-block {
     display: flex;
     align-items: center;
     color: white;
+    padding: 20px;
   }
 
   .title-block {
     margin-left: 16px;
   }
 
-  .logo {
-  }
-
   .project-title {
     font-size: 1.5em;
     font-weight: bold;
+  }
+
+  .go-home:active {
+    background: rgba(0, 0, 0, 0.1);
   }
 </style>
