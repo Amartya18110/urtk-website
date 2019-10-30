@@ -30,9 +30,8 @@
   @import "common.scss";
 
   header {
-    transition: 0.4s;
     z-index: 1;
-    background: linear-gradient(180deg, $primary-color, lighten($primary-color, 5%));
+    background: $primary-color;
     display: flex;
     justify-content: space-between;
     align-items: center;
