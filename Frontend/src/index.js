@@ -11,7 +11,6 @@ import NewsEditorPage from "./pages/NewsEditor/NewsEditorPage.vue";
 import NewsPage from "./pages/News/NewsPage.vue";
 
 Vue.use(VueRouter);
-document.execCommand("defaultParagraphSeparator", false, "p");
 
 const routes = [
   {
