@@ -41,14 +41,14 @@ namespace WebSite
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
 
+            app.UseAuthentication();
+
             app.UseCors(options =>
             {
                 options.AllowAnyMethod()
                     .AllowAnyOrigin()
                     .AllowAnyHeader();
             });
-
-            app.UseAuthentication();
 
             app.UseHttpsRedirection();
 
