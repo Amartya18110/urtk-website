@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header :class="{ 'transparent': isTransparent }">
     <router-link class="go-home" to="/">
       <div class="logo-block">
         <div class="logo">logo</div>
@@ -17,7 +17,12 @@
   import NavigationMenu from "../NavigationMenu/NavigationMenu.vue";
   export default {
     name: "Header",
-    components: {NavigationMenu}
+    components: {NavigationMenu},
+    computed: {
+      isTransparent() {
+        return this.$route.path.match(/^\/news\/\d+$/) != null;
+      }
+    }
   }
 </script>
 
@@ -25,10 +30,17 @@
   @import "common.scss";
 
   header {
+    transition: 0.4s;
+    z-index: 1;
     background: linear-gradient(180deg, $primary-color, lighten($primary-color, 5%));
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 20px;
+  }
+
+  .transparent {
+    background: transparent;
   }
 
   .logo-block {

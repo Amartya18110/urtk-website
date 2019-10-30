@@ -19,7 +19,7 @@
       title: String,
       shortDecs: String,
       imageScr: String,
-      date: Object,
+      date: Date,
       isSmall: Boolean
     },
     computed: {
