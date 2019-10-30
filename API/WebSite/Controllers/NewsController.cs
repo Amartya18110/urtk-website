@@ -63,6 +63,15 @@ namespace WebSite.Controllers
         }
 
         [HttpPost]
+        [Route("DeleteNews")]
+        public bool DeleteNews([FromBody] NewsDomain domain)
+        {
+            var news = _dbContext.NewsDomain.FirstOrDefault(newsDomain => newsDomain.Id == domain.Id);
+            _dbContext.NewsDomain.Remove(news ?? throw new InvalidOperationException());
+            return true;
+        }
+
+        [HttpPost]
         [Consumes("multipart/form-data")]
         [Route("UploadImage")]
         public async Task<string> UploadImageAsync()

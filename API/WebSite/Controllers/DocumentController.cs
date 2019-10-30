@@ -24,7 +24,7 @@ namespace WebSite.Controllers
         [HttpPost]
         [Consumes("multipart/form-data")]
         [Route("UploadDocument")]
-        public DocumentDomain UploadDocument(DocumentDomain documentDomain)
+        public DocumentDomain UploadDocument([FromBody]DocumentDomain documentDomain)
         {
             var file = HttpContext.Request.Form.Files.First();
             var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, "uploads/document");
