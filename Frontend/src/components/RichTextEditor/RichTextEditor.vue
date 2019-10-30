@@ -11,10 +11,10 @@
         <option value="h6">Заголовок 6</option>
         <option value="p">Параграф</option>
       </select>
-      <img class="toolbar-button button-bold" @click.prevent.stop="format('bold')" src="bold.svg" title="Жирный">
-      <img class="toolbar-button button-bold" @click.prevent.stop="format('italic')" src="italic.svg" title="Курсив">
-      <img class="toolbar-button button-bold" @click.prevent.stop="format('underline')" src="underline.svg" title="Подчеркнутый">
-      <img class="toolbar-button button-bold" @click.prevent.stop="openPictureInsertDialog" src="pic.svg" title="Вставить изображение">
+      <img class="toolbar-button button-bold" @click.prevent.stop="format('bold')" src="./bold.svg" title="Жирный">
+      <img class="toolbar-button button-bold" @click.prevent.stop="format('italic')" src="./italic.svg" title="Курсив">
+      <img class="toolbar-button button-bold" @click.prevent.stop="format('underline')" src="./underline.svg" title="Подчеркнутый">
+      <img class="toolbar-button button-bold" @click.prevent.stop="openPictureInsertDialog" src="./pic.svg" title="Вставить изображение">
     </div>
     <SelectImageDialog @image-changed="onPictureInsertDialogClosed" v-show="showImageDialog"></SelectImageDialog>
     <div class="news-content" contenteditable="true" @input="$emit('input', $event.target.innerHTML)">

@@ -58,11 +58,11 @@
 
 <style lang="scss" scoped>
   .news-image-wrapper {
-    margin-top: -85px;
+    margin-top: -120px;
     position: relative;
     overflow: hidden;
-    min-height: 85px;
-    max-height: 400px;
+    min-height: 120px;
+    max-height: 520px;
 
     img {
       display: block;

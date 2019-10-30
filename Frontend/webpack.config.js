@@ -3,13 +3,14 @@ const VueLoaderPlugin = require('vue-loader').VueLoaderPlugin;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DefinePlugin = require('webpack').DefinePlugin;
 
-const API_HOST = "'http://157.230.25.160'";
-const API_PORT = 5000;
+// const API_HOST = "'http://157.230.25.160'";
+// const API_PORT = 5000;
 
-// const API_HOST = "'http://localhost'";
-// const API_PORT = 26408;
+const API_HOST = "'http://localhost'";
+const API_PORT = 26408;
 
 module.exports = {
+  mode: 'development',
   context: path.resolve(__dirname, 'src'),
   entry: './index.js',
   output: {
@@ -42,6 +43,18 @@ module.exports = {
             }
           }
         ]
+      }, {
+        test: /\.(png|jpg|svg|ttf)$/,
+        loader: 'file-loader',
+        options: {
+          outputPath: 'assets',
+          name(file) {
+            console.log('file-loader', file);
+            let paths = path.dirname(file).split(path.sep);
+            let component = paths[paths.length-1];
+            return `${component}/[name].[ext]`
+          }
+        }
       }
     ]
   },

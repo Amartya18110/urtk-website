@@ -1,8 +1,8 @@
 <template>
-  <header :class="{ 'transparent': isTransparent }">
+  <header :class="{ 'transparent': this.isTransparent }">
     <router-link class="go-home" to="/">
       <div class="logo-block">
-        <div class="logo">logo</div>
+        <img class="logo" src="./sport.svg">
         <div class="title-block">
           <span>Областной молодежный медиаквест</span><br>
           <span class="project-title">«Российский спорт»</span>
@@ -47,6 +47,10 @@
     align-items: center;
     color: white;
     padding: 20px;
+  }
+
+  .logo {
+    height: 80px;
   }
 
   .title-block {
