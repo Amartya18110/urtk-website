@@ -17,7 +17,7 @@
       <img class="toolbar-button button-bold" @click.prevent.stop="openPictureInsertDialog" src="./pic.svg" title="Вставить изображение">
     </div>
     <SelectImageDialog @image-changed="onPictureInsertDialogClosed" v-show="showImageDialog"></SelectImageDialog>
-    <div class="news-content" contenteditable="true" @input="$emit('input', $event.target.innerHTML)">
+    <div class="content" contenteditable="true" @input="$emit('input', $event.target.innerHTML)">
       Содержимое новости
     </div>
   </div>
@@ -106,15 +106,17 @@
     overflow: hidden;
   }
 
-  .news-content {
+  .content {
+    outline: 1px solid $primary-color;
+    padding: 20px;
     margin-top: 20px;
   }
 
   .toolbar-button {
     box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    margin: 8px;
+    width: 32px;
+    height: 32px;
+    padding: 8px;
     border-radius: 5px;
     cursor: pointer;
 

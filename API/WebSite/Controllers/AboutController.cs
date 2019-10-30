@@ -16,28 +16,26 @@ namespace WebSite.Controllers
 
         [HttpGet]
         [Route("get")]
-        public AboutDomain[] Get()
+        public AboutDomain Get()
         {
-            return _context.AboutDomains.ToArray();
-        }
-
-        [HttpPost]
-        [Route("insert")]
-        public AboutDomain Insert([FromBody]AboutDomain domain)
-        {
-            _context.Add(domain);
-            _context.SaveChanges();
-
-            return domain;
+            return _context.AboutDomains.FirstOrDefault();
         }
 
         [HttpPost]
         [Route("update")]
         public AboutDomain Update([FromBody]AboutDomain domain)
         {
-            _context.Update(domain);
-            _context.SaveChanges();
+            if (_context.AboutDomains.Count() == 0)
+            {
+                _context.Add(domain);
+            }
+            else
+            {
+                domain.Id = 1;
+                _context.Update(domain);
+            }
 
+            _context.SaveChanges();
             return domain;
         }
     }

@@ -9,6 +9,7 @@ import LoginPage from "./pages/Login/LoginPage.vue";
 import AdminPanelPage from "./pages/AdminPanel/AdminPanelPage.vue";
 import NewsEditorPage from "./pages/NewsEditor/NewsEditorPage.vue";
 import NewsPage from "./pages/News/NewsPage.vue";
+import AboutEditorPage from "./pages/AboutEditor/AboutEditorPage.vue";
 
 Vue.use(VueRouter);
 
@@ -22,6 +23,9 @@ const routes = [
   }, {
     path: "/about",
     component: AboutPage
+  }, {
+    path: "/edit-about",
+    component: AboutEditorPage
   }, {
     path: "/login",
     component: LoginPage
