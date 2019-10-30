@@ -68,7 +68,7 @@ namespace WebSite.Controllers
         public async Task<string> UploadImageAsync()
         {
             var file = HttpContext.Request.Form.Files.First();
-            var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, "uploads\\img");
+            var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, "uploads/img");
             if (file.Length > 0)
             {
                 var fileName = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(file.FileName);
@@ -76,7 +76,7 @@ namespace WebSite.Controllers
                 {
                     await file.CopyToAsync(fileStream);
                 }
-                return "uploads\\img\\" + fileName;
+                return "uploads/img/" + fileName;
             }
             return null;
         }
