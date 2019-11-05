@@ -24,7 +24,7 @@ namespace WebSite.Controllers
         [HttpPost]
         [Consumes("multipart/form-data")]
         [Route("UploadDocument")]
-        public DocumentDomain UploadDocument([FromBody]DocumentDomain documentDomain)
+        public DocumentDomain UploadDocument([FromForm]DocumentDomain documentDomain)
         {
             var file = HttpContext.Request.Form.Files.First();
             var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, "uploads/document");
@@ -35,7 +35,7 @@ namespace WebSite.Controllers
                     file.CopyTo(fileStream);
                 }
 
-                documentDomain.DocumentLink = "uploads/img/" + file.FileName;
+                documentDomain.DocumentLink = "uploads/document/" + file.FileName;
                 _context.DocumentDomains.Add(documentDomain);
                 _context.SaveChanges();
 
