@@ -2,7 +2,7 @@
   <div class="root-block">
     <div class="block-header">
       <h1>Последние события</h1>
-      <router-link v-show="signedAs" class="add-news-button" to="/add-news">Добавить новость</router-link>
+      <RouterButton v-show="signedAs" class="header-add-button" to="/add-news">Добавить новость</RouterButton>
     </div>
     <div class="news-list">
       <NewsTile v-for="news in newsList.slice(0, 2)"
@@ -28,24 +28,44 @@
         <router-link class="i-want-read-more-boring-news-button" to="/news">К другим новостям</router-link>
       </div>
     </div>
+    <div class="block-header">
+      <h1>Документы</h1>
+      <UploadFileComponent @file-changed="onFileSaved" v-show="showFileUploadDialog"></UploadFileComponent>
+      <ActionButton class="header-add-button" v-show="signedAs" @click="openAddFileDialog">Загрузить документ</ActionButton>
+    </div>
   </div>
 </template>
 
 <script>
   import NewsTile from "../../components/NewsTile/NewsTile.vue";
+  import ActionButton from "../../components/ActionButton/ActionButton.vue";
+  import UploadFileComponent from "../../components/UploadFileDialog/UploadFileComponent.vue";
+  import RouterButton from "../../components/RouterButton/RouterButton.vue";
   export default {
     name: "MainPage",
-    components: {NewsTile},
+    components: {RouterButton, UploadFileComponent, ActionButton, NewsTile},
     created() {
+      this.getFilesList();
       this.getNewsList();
     },
     data() {
       return {
+        showFileUploadDialog: false,
         signedAs: localStorage.signed_as,
         newsList: []
       }
     },
     methods: {
+      openAddFileDialog() {
+        this.showFileUploadDialog = true;
+      },
+      onFileSaved() {
+        this.getFilesList();
+        this.showFileUploadDialog = false;
+      },
+      onFileRejected() {
+        this.showFileUploadDialog = false;
+      },
       async getNewsList() {
         const response = await fetch(`${API_HOST}:${API_PORT}/news/getnews?page=1&pageSize=6`);
         const json = await response.json();
@@ -59,6 +79,9 @@
             date: n.newsCreateTime ? new Date(n.newsCreateTime) : null
           };
         });
+      },
+      async getFilesList() {
+        console.log("кто-то забыл сделать API!");
       }
     }
   }
@@ -74,20 +97,6 @@
   .block-header {
     display: flex;
     align-items: center;
-  }
-
-  .add-news-button {
-    display: block;
-    margin-left: 50px;
-    padding: 4px 10px;
-    border-radius: 5px;
-    border: 1px solid $primary-color;
-    transition: 0.4s;
-
-    &:active {
-      color: white;
-      background: $primary-color;
-    }
   }
 
   .news-list {
@@ -143,5 +152,9 @@
         transform: scaleX(-1);
       }
     }
+  }
+
+  .header-add-button {
+    margin-left: 50px;
   }
 </style>

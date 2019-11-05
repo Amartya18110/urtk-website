@@ -2,69 +2,64 @@
   <div class="insert-picture-dialog">
     <div class="dialog">
       <div class="dialog-header">
-        <h1>Выбор изображения</h1>
+        <h1>Загрузка файла</h1>
       </div>
       <div class="dialog-content">
-        <label class="dialog-image" :class="{ 'border': !hasImage }" @dragover.prevent.stop @drop.prevent.stop="fileDropped">
-          <img :src="image" class="news-image-img">
-          <div class="image-text select-image" v-show="!hasImage">Выбрать изображение</div>
-          <input hidden type="file" @change="fileChanged">
+        <label class="name-label" v-show="file">
+          Имя файла:
+          <input class="name-input" type="text" v-model="fileName">
         </label>
+        <label class="desc-label" v-show="file">
+          Описание файла:
+          <textarea class="desc-input" type="text" v-model="fileDesc"></textarea>
+        </label>
+        <input type="file" @change="fileChanged">
       </div>
       <div class="dialog-button-bar">
         <button class="cancel-button dialog-button" @click="onCancel">Отмена</button>
-        <button class="insert-button dialog-button" @click="onOk">Вставить изображение</button>
+        <button class="insert-button dialog-button" @click="onOk">Сохранить файл</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  // TODO: вынести выбор файла в отдельный компонент
   export default {
-    name: "SelectImageDialog",
+    name: "UploadFileComponent",
     data() {
       return {
-        image: null,
-      }
-    },
-    computed: {
-      hasImage() {
-        return this.image != null && this.image !== ""
+        file: null,
+        fileName: "",
+        fileDesc: "",
       }
     },
     methods: {
       onOk() {
-        this.$emit('image-changed', this.image);
-        this.image = null;
+        this.uploadFile(this.file);
       },
       onCancel() {
-        this.$emit('image-changed', null);
-        this.image = null;
-      },
-      fileDropped(event) {
-        if (event) {
-          const file = (event.dataTransfer || event.target).files[0];
-          this.uploadFile(file);
-        }
+        this.$emit('file-rejected');
       },
       fileChanged(event) {
         if (event) {
           const file = event.target.files[0];
-          this.uploadFile(file);
+          this.file = file;
+          this.fileName = file.name;
+          this.fileDesc = "";
         }
       },
       async uploadFile(file) {
         if (file) {
           const formData = new FormData();
           formData.append("file", file);
-          const response = await fetch(`${API_HOST}:${API_PORT}/news/UploadImage`, {
+          formData.append("documentName", this.fileName);
+          formData.append("documentCaption", this.fileDesc);
+          const response = await fetch(`${API_HOST}:${API_PORT}/document/UploadDocument`, {
             method: 'POST',
             mode: 'no-cors',
             body: formData
           });
-          const fileSrc = await response.text();
-          this.image = `${API_HOST}:${API_PORT}/${fileSrc.replace(/\\/g, '/')}`;
+          this.$emit('file-saved');
         }
       }
     }
@@ -74,21 +69,21 @@
 <style lang="scss" scoped>
   @import "common.scss";
 
-  .dialog-image {
+  .dialog-file {
     display: block;
     cursor: pointer;
     width: 100%;
-    height: 300px;
+    height: 100px;
     flex-shrink: 0;
     box-sizing: border-box;
     position: relative;
   }
 
-  .dialog-image.border {
+  .dialog-file.border {
     border: 4px dashed #aaa;
   }
 
-  .image-text {
+  .file-text {
     padding: 0 20px;
     text-align: center;
     color: #aaaaaa;
@@ -117,6 +112,7 @@
   }
 
   .dialog {
+    min-width: 400px;
     background: white;
     padding: 20px;
     border-radius: 5px;
@@ -140,17 +136,55 @@
     transition: 0.1s;
     background: transparent;
 
-  &:active {
+    &:active {
      color: white;
      background: $primary-color;
    }
 
-  &:focus {
+    &:focus {
      outline: none;
    }
   }
 
   .dialog-button:not(:last-child) {
     margin-right: 10px;
+  }
+
+  .name-label {
+    display: flex;
+    align-items: center;
+  }
+
+  .name-input {
+    margin-left: 10px;
+    border: 1px solid $implicit-color;
+    border-radius: 6px;
+    padding: 6px 10px;
+    flex-grow: 1;
+
+    &:focus {
+      outline: none;
+      border-width: 2px;
+      border-color: $primary-color;
+      padding: 5px 9px;
+    }
+  }
+
+  .desc-label {
+    display: block;
+    margin: 10px 0;
+  }
+
+  .desc-input {
+    display: block;
+    width: 100%;
+    border: 1px solid $implicit-color;
+    resize: vertical;
+
+    &:focus {
+      outline: none;
+      border-width: 2px;
+      border-color: $primary-color;
+    }
   }
 </style>
