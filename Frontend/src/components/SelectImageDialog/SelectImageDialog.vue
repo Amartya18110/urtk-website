@@ -58,13 +58,13 @@
         if (file) {
           const formData = new FormData();
           formData.append("file", file);
-          const response = await fetch(`${API_HOST}:${API_PORT}/news/UploadImage`, {
+          const response = await fetch(API_ADDRESS + 'news/UploadImage', {
             method: 'POST',
             mode: 'no-cors',
             body: formData
           });
           const fileSrc = await response.text();
-          this.image = `${API_HOST}:${API_PORT}/${fileSrc.replace(/\\/g, '/')}`;
+          this.image = API_ADDRESS + fileSrc;
         }
       }
     }

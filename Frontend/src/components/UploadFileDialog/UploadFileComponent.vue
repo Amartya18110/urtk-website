@@ -54,7 +54,7 @@
           formData.append("file", file);
           formData.append("documentName", this.fileName);
           formData.append("documentCaption", this.fileDesc);
-          const response = await fetch(`${API_HOST}:${API_PORT}/document/UploadDocument`, {
+          const response = await fetch(API_ADDRESS + 'document/UploadDocument', {
             method: 'POST',
             mode: 'no-cors',
             body: formData
