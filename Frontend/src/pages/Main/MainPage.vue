@@ -5,7 +5,7 @@
       <RouterButton v-show="signedAs" class="header-add-button" to="/add-news">Добавить новость</RouterButton>
     </div>
     <div class="news-list">
-      <NewsTile v-for="news in newsList.slice(0, 2)"
+      <NewsTile v-for="news in newsList.slice(0, this.showAdditional ? 2 : 3)"
                 :key="news.id"
                 :id="news.id"
                 :title="news.title"
@@ -13,7 +13,7 @@
                 :image-scr="news.image"
                 :date="news.date">
       </NewsTile>
-      <div class="additional-news">
+      <div class="additional-news" v-if="this.showAdditional">
         <h2 class="additional-news-title">Другие новости</h2>
         <NewsTile v-for="news in newsList.slice(2, 6)"
                   class="additional-news-item"
@@ -33,6 +33,15 @@
       <UploadFileComponent @file-changed="onFileSaved" v-show="showFileUploadDialog"></UploadFileComponent>
       <ActionButton class="header-add-button" v-show="signedAs" @click="openAddFileDialog">Загрузить документ</ActionButton>
     </div>
+    <div class="files">
+      <FileView v-for="file in filesList"
+                :key="file.id"
+                :src="file.link"
+                :name="file.name"
+                :desc="file.desc"
+                :date="file.date">
+      </FileView>
+    </div>
   </div>
 </template>
 
@@ -41,18 +50,28 @@
   import ActionButton from "../../components/ActionButton/ActionButton.vue";
   import UploadFileComponent from "../../components/UploadFileDialog/UploadFileComponent.vue";
   import RouterButton from "../../components/RouterButton/RouterButton.vue";
+  import FileView from "../../components/FileView/FileView.vue";
   export default {
     name: "MainPage",
-    components: {RouterButton, UploadFileComponent, ActionButton, NewsTile},
+    components: {FileView, RouterButton, UploadFileComponent, ActionButton, NewsTile},
     created() {
       this.getFilesList();
       this.getNewsList();
+    },
+    computed: {
+      showAdditional() {
+        return this.newsList.length > 3;
+      },
+      isMobile() {
+        return matchMedia("(max-width: 768px)");
+      }
     },
     data() {
       return {
         showFileUploadDialog: false,
         signedAs: localStorage.signed_as,
-        newsList: []
+        newsList: [],
+        filesList: []
       }
     },
     methods: {
@@ -81,7 +100,17 @@
         });
       },
       async getFilesList() {
-        console.log("кто-то забыл сделать API!");
+        const response = await fetch(API_ADDRESS + 'document/GetDocuments?m=%D1%8F%20%D1%83%D1%81%D1%82%D0%B0%D0%BB');
+        const files = await response.json();
+        this.filesList = files.map(fd => {
+          return {
+            id: fd.id,
+            name: fd.documentName ? fd.documentName : "",
+            desc: fd.documentCaption ? fd.documentCaption : "",
+            date: fd.documentCreateTime ? new Date(fd.documentCreateTime) : null,
+            link: fd.documentLink ? fd.documentLink : "",
+          }
+        });
       }
     }
   }
@@ -101,7 +130,7 @@
 
   .news-list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 1vw;
   }
 
@@ -156,5 +185,40 @@
 
   .header-add-button {
     margin-left: 50px;
+  }
+
+  .files {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (max-width: 768px) {
+    .files {
+      grid-template-columns: 1fr;
+    }
+
+    .news-list {
+      grid-template-columns: 1fr;
+    }
+
+    .additional-news {
+      grid-row: auto;
+      grid-column: auto;
+    }
+
+    .block-header {
+      text-align: center;
+      flex-direction: column;
+
+      h1 {
+        font-size: 1.5em;
+      }
+    }
+
+    .header-add-button {
+      margin-left: 0;
+      margin-bottom: 30px;
+    }
   }
 </style>

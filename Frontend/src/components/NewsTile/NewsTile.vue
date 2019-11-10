@@ -43,11 +43,16 @@
   .tile {
     cursor: pointer;
     display: block;
+    transition: 200ms;
+  }
+
+  .tile:active {
+    background: rgba(0,0,0,0.1);
   }
 
   .tile:hover {
     .img-wrapper img {
-      height: 110%;
+      width: 105%;
     }
   }
 
@@ -69,7 +74,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    height: 100%;
+    width: 100%;
     transition: 0.4s;
   }
 

@@ -65,4 +65,10 @@
   .go-home:active {
     background: rgba(0, 0, 0, 0.1);
   }
+
+  @media (max-width: 768px) {
+    header {
+      flex-direction: column;
+    }
+  }
 </style>

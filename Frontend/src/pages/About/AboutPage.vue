@@ -1,6 +1,6 @@
 <template>
   <div class="root">
-    <div class="title-wrapper">
+    <div class="block-header">
       <h1 class="title">О проекте</h1>
       <RouterButton to="/edit-about" class="edit-button" v-show="signedAs">Редактировать</RouterButton>
     </div>
@@ -42,7 +42,7 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .root {
     padding: 0 20vw;
   }
@@ -65,5 +65,21 @@
   .add-about-button {
     display: block;
     margin: 40px auto 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .block-header {
+      text-align: center;
+      flex-direction: column;
+
+      h1 {
+        font-size: 1.5em;
+      }
+    }
+
+    .edit-button {
+      margin-left: 0;
+      margin-bottom: 30px;
+    }
   }
 </style>
