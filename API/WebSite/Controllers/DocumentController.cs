@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,6 +20,20 @@ namespace WebSite.Controllers
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
+        }
+
+        [HttpGet]
+        [Route("GetDocument")]
+        public DocumentDomain GetDocument(int documentId)
+        {
+            return _context.DocumentDomains.FirstOrDefault(domain => domain.Id == documentId);
+        }
+
+        [HttpGet]
+        [Route("GetDocuments")]
+        public List<DocumentDomain> GetDocuments()
+        {
+            return _context.DocumentDomains.ToList();
         }
 
         [HttpPost]
